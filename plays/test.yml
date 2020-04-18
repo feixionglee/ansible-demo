@@ -1,0 +1,16 @@
+- hosts: all
+  become: false
+
+  tasks:
+  - name: check if the tree command exists
+    command: tree
+    register: tree_command
+    ignore_errors: true
+
+  - debug: "msg={{tree_command.msg}}"
+
+  - name: check the disk space on the root partition
+    command: df / -h
+    register: disk_space
+
+  - debug: "msg={{disk_space.stdout_lines[1]}}"
